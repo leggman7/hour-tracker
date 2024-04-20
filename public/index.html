@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipment Hours Manager</title>
+</head>
+<body>
+    <h1>Equipment Hours</h1>
+    <div id="equipment-hours-list">
+        <!-- Equipment hours will be loaded here by the script.js -->
+    </div>
+
+    <h2>Add New Equipment Hours</h2>
+    <form id="new-equipment-hour-form">
+        <input type="text" id="equipment_tag" placeholder="Equipment Tag" required>
+        <input type="date" id="entry_date" required>
+        <input type="number" id="total_counter_hours" placeholder="Total Counter Hours" required>
+        <input type="number" id="meter_hours" placeholder="Meter Hours" required>
+        <input type="text" id="entered_by" placeholder="Entered By" required>
+        <textarea id="notes" placeholder="Notes"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
