@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const list = document.getElementById('equipment-hours-list');
       list.innerHTML = ''; // Clear existing entries
       data.forEach(hour => {
+        // Convert the date string to a Date object
+        const date = new Date(hour.entry_date);
         const div = document.createElement('div');
-        div.textContent = `Tag: ${hour.equipment_tag}, Date: ${hour.entry_date.toISOString().substring(0, 10)}, Total Hours: ${hour.total_counter_hours}, Meter Hours: ${hour.meter_hours}, Entered By: ${hour.entered_by}, Notes: ${hour.notes}`;
+        div.textContent = `Tag: ${hour.equipment_tag}, Date: ${date.toISOString().substring(0, 10)}, Total Hours: ${hour.total_counter_hours}, Meter Hours: ${hour.meter_hours}, Entered By: ${hour.entered_by}, Notes: ${hour.notes}`;
         list.appendChild(div);
       });
     })
