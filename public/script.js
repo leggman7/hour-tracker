@@ -2,14 +2,17 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('/api/equipment-hours')
     .then(response => response.json())
     .then(data => {
-      console.log(data); // Add this to see what data looks like
       const list = document.getElementById('equipment-hours-list');
+      list.innerHTML = ''; // Clear existing entries
       data.forEach(hour => {
         const div = document.createElement('div');
-        div.textContent = `Tag: ${hour.equipment_tag}, Date: ${hour.entry_date}, Total Hours: ${hour.total_counter_hours}, Meter Hours: ${hour.meter_hours}, Entered By: ${hour.entered_by}, Notes: ${hour.notes}`;
+        div.textContent = `Tag: ${hour.equipment_tag}, Date: ${hour.entry_date.toISOString().substring(0, 10)}, Total Hours: ${hour.total_counter_hours}, Meter Hours: ${hour.meter_hours}, Entered By: ${hour.entered_by}, Notes: ${hour.notes}`;
         list.appendChild(div);
       });
-    });
+    })
+    .catch(error => console.error('Error:', error));
+});
+
 
   const form = document.getElementById('new-equipment-hour-form');
   form.onsubmit = function(event) {
@@ -42,4 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(error => console.error('Error:', error));
   };
-});
+

@@ -14,10 +14,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/equipment-hours', async (req, res) => {
   try {
-    const { rows } = await pool.query('SELECT * FROM equipment_hours ORDER BY entry_date DESC');
+    // Modify the query to order by entry_date descending and limit the result to 5
+    const { rows } = await pool.query('SELECT * FROM equipment_hours ORDER BY entry_date DESC LIMIT 5');
     res.json(rows);
   } catch (err) {
-    res.status(500).json({ error: 'Internal server error, couldnt connect to database (love, Ryan)' });
+    console.error('Error querying equipment hours:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
