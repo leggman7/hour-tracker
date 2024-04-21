@@ -17,7 +17,7 @@ app.get('/api/equipment-hours', async (req, res) => {
     const { rows } = await pool.query('SELECT * FROM equipment_hours ORDER BY entry_date DESC');
     res.json(rows);
   } catch (err) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error, couldnt connect to database (love, Ryan)' });
   }
 });
 
