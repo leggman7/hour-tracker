@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Equipment Hours Manager</title>
+<meta charset="UTF-8">
+<title>Equipment Hours Dashboard</title>
+<script src="index.js" defer></script>
 </head>
 <body>
-    <h1>Equipment Hours</h1>
-    <div id="equipment-hours-list">
-        <!-- Equipment hours will be loaded here by the script.js -->
-    </div>
+<h1>Equipment Hours Dashboard</h1>
 
-    <h2>Add New Equipment Hours</h2>
-    <form id="new-equipment-hour-form">
-        <input type="text" id="equipment_tag" placeholder="Equipment Tag" required>
-        <input type="date" id="entry_date" required>
-        <input type="number" id="total_counter_hours" placeholder="Total Counter Hours" required>
-        <input type="number" id="meter_hours" placeholder="Meter Hours" required>
-        <input type="text" id="entered_by" placeholder="Entered By" required>
-        <textarea id="notes" placeholder="Notes"></textarea>
-        <button type="submit">Submit</button>
-    </form>
+<section>
+  <h2>View Single Equipment</h2>
+  <select id="equipment-tag-dropdown">
+    <option value="">Select Equipment Tag</option>
+  </select>
+  <button onclick="viewSingleEquipment()">View Hours</button>
+</section>
 
-    <script src="script.js"></script>
+<section>
+  <h2>Bulk Enter Hours</h2>
+  <p><a href="bulk-enter.html">Go to Bulk Entry Page</a></p>
+</section>
+
+<section>
+  <h2>Last Entry Updated</h2>
+  <div id="last-entry-info"></div>
+</section>
 </body>
 </html>

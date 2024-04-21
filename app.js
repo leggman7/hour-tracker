@@ -36,6 +36,30 @@ app.post('/api/equipment-hours', async (req, res) => {
   }
 });
 
+//to get the hours only for a specific equipment_tag
+app.get('/api/equipment-hours/:tag', async (req, res) => {
+  const tag = req.params.tag;
+  try {
+    const { rows } = await pool.query('SELECT * FROM equipment_hours WHERE equipment_tag = $1 ORDER BY entry_date DESC', [tag]);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error querying equipment hours by tag:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//to get the list of equipment_tags
+app.get('/api/equipment-tags', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT DISTINCT equipment_tag FROM equipment_hours ORDER BY equipment_tag');
+    res.json(rows.map(row => row.equipment_tag));
+  } catch (err) {
+    console.error('Error querying distinct equipment tags:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
