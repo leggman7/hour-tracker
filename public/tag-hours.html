@@ -3,11 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <title>View Equipment Hours</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="tag-hours.js" defer></script>
 </head>
 <body>
 <h1>Equipment Hours for Specific Equipment</h1>
-<div id="hours-list">Loading hours...</div>
+<canvas id="hoursChart"></canvas> <!-- Canvas for Chart.js -->
+
+<h2>Edit Hour Entry</h2>
+<form id="edit-form" style="display:none;">
+    <input type="hidden" id="edit-id">
+    <label for="edit-total-counter-hours">Total Counter Hours:</label>
+    <input type="number" id="edit-total-counter-hours">
+    <label for="edit-meter-hours">Meter Hours:</label>
+    <input type="number" id="edit-meter-hours">
+    <label for="edit-notes">Notes:</label>
+    <input type="text" id="edit-notes">
+    <button type="submit">Save Changes</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadHoursForTag();
+});
+
+</script>
 </body>
 </html>
 

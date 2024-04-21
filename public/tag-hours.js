@@ -1,22 +1,43 @@
 function loadHours(tag) {
     fetch(`/api/equipment-hours/${encodeURIComponent(tag)}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        const list = document.getElementById('hours-list');
-        list.innerHTML = ''; // Clear previous entries
         if (data.length > 0) {
-          data.forEach(hour => {
-            const div = document.createElement('div');
-            div.textContent = `Date: ${new Date(hour.entry_date).toISOString().substring(0, 10)}, Total Counter Hours: ${hour.total_counter_hours}, Meter Hours: ${hour.meter_hours}, Entered By: ${hour.entered_by}, Notes: ${hour.notes}`;
-            list.appendChild(div);
+          const ctx = document.getElementById('hoursChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line', // Line chart to show hours over time
+            data: {
+              labels: data.map(hour => new Date(hour.entry_date).toISOString().substring(0, 10)), // Dates
+              datasets: [{
+                  label: 'Total Counter Hours',
+                  data: data.map(hour => hour.total_counter_hours),
+                  borderColor: 'red',
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  fill: false
+              }, {
+                  label: 'Meter Hours',
+                  data: data.map(hour => hour.meter_hours),
+                  borderColor: 'blue',
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  fill: false
+              }]
+            },
+            options: {
+              scales: {
+                  x: {
+                      type: 'time',
+                      time: {
+                          unit: 'day'
+                      }
+                  },
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+            }
           });
         } else {
-          list.textContent = 'No hours found for this equipment tag.';
+          document.getElementById('hours-list').textContent = 'No hours found for this equipment tag.';
         }
       })
       .catch(error => {
@@ -34,6 +55,3 @@ function loadHours(tag) {
       document.getElementById('hours-list').textContent = 'No equipment tag specified.';
     }
   }
-  
-  document.addEventListener('DOMContentLoaded', loadHoursForTag);
-  
