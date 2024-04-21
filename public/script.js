@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('/api/equipment-hours')
     .then(response => response.json())
     .then(data => {
+      console.log(data); // Add this to see what data looks like
       const list = document.getElementById('equipment-hours-list');
       data.forEach(hour => {
         const div = document.createElement('div');
