@@ -1,3 +1,7 @@
+import { Chart } from 'chart.js';
+import 'chartjs-adapter-date-fns';
+
+
 function loadHours(tag) {
     fetch(`/api/equipment-hours/${encodeURIComponent(tag)}`)
       .then(response => response.json())
