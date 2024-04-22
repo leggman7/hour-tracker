@@ -39,6 +39,17 @@ app.get('/api/equipment-hours', async (req, res) => {
   }
 });
 
+app.get('/api/all-equipment-hours', async (req, res) => {
+  try {
+    // Modify the query to order by entry_date descending and limit the result to 5
+    const { rows } = await pool.query('SELECT * FROM equipment_hours ORDER BY entry_date DESC');
+    res.json(rows);
+  } catch (err) {
+    console.error('Error querying equipment hours:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 //to add new equipment hours
 app.post('/api/equipment-hours', async (req, res) => {
   console.log("received request to add equipment hours");
