@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => console.error('Error loading equipment tags:', error));
   
-    // Fetch last entry updated information
-    // Assuming there's an endpoint to fetch this, similar to tags fetching
   });
   
   function viewSingleEquipment() {

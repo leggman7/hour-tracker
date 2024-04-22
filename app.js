@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { stringify } from 'csv-stringify';
 
 import express from 'express';
 import pg from 'pg';
@@ -28,14 +29,61 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//get the latest few entries for all equipement
 app.get('/api/equipment-hours', async (req, res) => {
   try {
-    // Modify the query to order by entry_date descending and limit the result to 5
     const { rows } = await pool.query('SELECT * FROM equipment_hours ORDER BY entry_date DESC LIMIT 5');
     res.json(rows);
   } catch (err) {
     console.error('Error querying equipment hours:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Endpoint to get a CSV file
+app.get('/download-latest-entries-csv', async (req, res) => {
+  console.log('Received request for CSV file');
+
+  try {
+      console.log('Executing query to fetch latest entries');
+      const query = `
+      SELECT DISTINCT ON (eh.equipment_tag) eh.*, et.measuring_point AS "Measuring Point",
+               '21:00:00' AS "Mass Time",
+               TO_CHAR(eh.entry_date, 'YYYY-MM-DD') AS "Date",
+               eh.total_counter_hours AS "Counter Reading",
+               'RM' AS "Value",
+               eh.entered_by AS "Entered By"
+        FROM equipment_hours eh
+        JOIN equipment_tags et ON eh.equipment_tag = et.equipment_tag
+        ORDER BY eh.equipment_tag, eh.entry_date DESC;
+      `;
+      const { rows } = await pool.query(query);
+      console.log('Query successful, number of rows fetched:', rows.length);
+
+      if (rows.length === 0) {
+          console.log('No data available to generate CSV');
+          res.status(404).send('No data available');
+          return;
+      }
+
+      console.log('Generating CSV from data');
+      stringify(rows, {
+        header: true,
+        columns: ["Measuring Point", "Mass Time", "Date", "Counter Reading", "Value", "Entered By"]
+      }, (err, output) => {
+          if (err) {
+              console.error('Error generating CSV:', err);
+              res.status(500).send('Failed to generate CSV');
+              return;
+          }
+          console.log('CSV generation successful, sending data');
+          res.header('Content-Type', 'text/csv');
+          res.attachment('latest-entries.csv');
+          res.send(output);
+      });
+  } catch (err) {
+      console.error('Database query error:', err);
+      res.status(500).send('Error querying the database');
   }
 });
 
