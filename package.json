@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "A simple app to manage equipment hours",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "pg": "^8.5.1",
+    "@kurkle/color": "^0.3.2",
+    "chart.js": "^4.4.2",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
-    "chartjs-adapter-date-fns": "^3.0"
+    "dotenv": "^16.4.5",
+    "express": "^4.17.1",
+    "nodemon": "^3.1.0",
+    "pg": "^8.5.1"
   }
 }

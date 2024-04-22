@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bulk Entry for Equipment</title>
+</head>
+<body>
+  <h1>Bulk Entry for Equipment</h1>
+  <a href="index.html">Back to Main Dashboard</a>
+  <input type="text" id="enteredBy" placeholder="Entered By">
+  <button onclick="submitAllForms()">Submit All</button>
+
+<table id="formContainer">
+    <thead>
+        <tr>
+            <th>Equipment Tag</th>
+            <th>Date</th>
+            <th>Latest Total Counter</th>
+            <th>Latest Meter</th>
+            <th>Update Meter Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Forms will be inserted here -->
+    </tbody>
+</table>
+
+<script src="bulk-entry.js"></script>
+</body>
+</html>
